@@ -1,9 +1,4 @@
-.flex {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  align-items: center;
-}
+
 
 * {
   box-sizing: border-box;
@@ -49,6 +44,12 @@
   transition: 0.3s;
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
 
 .submit-btn {
   grid-column: span 4;
