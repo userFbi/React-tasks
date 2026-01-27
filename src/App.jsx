@@ -1,5 +1,6 @@
 import './App.css';
 import CartData from './CartData/CartData';
+import ProductCards from './CartData/ProductCards';
 import CrudResult from './ResultCrud/CrudResult';
 // import StudentResult from './useStateResulte/Student';
 
@@ -8,7 +9,8 @@ function App() {
     <div className="App">
       {/* <StudentResult/> */}
       {/* <CrudResult /> */}
-      <CartData />
+      {/* <CartData /> */}
+      <ProductCards/>
     </div>
   );
 }
