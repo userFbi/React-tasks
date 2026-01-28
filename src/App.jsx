@@ -1,6 +1,6 @@
 import './App.css';
 import CartData from './CartData/CartData';
-import ProductCards from './CartData/ProductCards';
+import ProductCards from './ProductCards/ProductCards';
 import CrudResult from './ResultCrud/CrudResult';
 // import StudentResult from './useStateResulte/Student';
 
