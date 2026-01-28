@@ -1,3 +1,4 @@
+import RickMortyApi from './ApiCall/RickMortyApi';
 import './App.css';
 import CartData from './CartData/CartData';
 import ProductCards from './ProductCards/ProductCards';
@@ -10,7 +11,10 @@ function App() {
       {/* <StudentResult/> */}
       {/* <CrudResult /> */}
       {/* <CartData /> */}
-      <ProductCards/>
+      {/* <ProductCards/> */}
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
+        <RickMortyApi />
+      </div>
     </div>
   );
 }
