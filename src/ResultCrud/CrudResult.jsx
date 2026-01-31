@@ -105,10 +105,11 @@ const StudentResult = () => {
       <table border={1}>
         <thead>
           <tr>
+            <th>No.</th>
             <th>Name</th>
-            <th>M1</th>
-            <th>M2</th>
-            <th>M3</th>
+            <th>S1</th>
+            <th>S2</th>
+            <th>S3</th>
             <th>Total</th>
             <th>Min</th>
             <th>Max</th>
@@ -122,6 +123,7 @@ const StudentResult = () => {
           {filteredList.map((i, index) => (
             <>
               <tr key={index}>
+                <td><span><b>{index+1}</b></span></td>
                 <td>{i.name}</td>
                 <td>{i.m1}</td>
                 <td>{i.m2}</td>

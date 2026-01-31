@@ -3,18 +3,22 @@ import './App.css';
 import CartData from './CartData/CartData';
 import ProductCards from './ProductCards/ProductCards';
 import CrudResult from './ResultCrud/CrudResult';
+import TicTacToe from './TicTacToe/TicTacToe';
 // import StudentResult from './useStateResulte/Student';
 
 function App() {
   return (
     <div className="App">
       {/* <StudentResult/> */}
-      {/* <CrudResult /> */}
+      <CrudResult />
       {/* <CartData /> */}
       {/* <ProductCards/> */}
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
+
+      {/* <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
         <RickMortyApi />
-      </div>
+      </div> */}
+
+      {/* <TicTacToe /> */}
     </div>
   );
 }
