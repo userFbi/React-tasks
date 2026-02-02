@@ -1,3 +1,4 @@
+import ApiCalling810 from './ApiCall/ApiCalling810';
 import RickMortyApi from './ApiCall/RickMortyApi';
 import './App.css';
 import CartData from './CartData/CartData';
@@ -10,7 +11,7 @@ function App() {
   return (
     <div className="App">
       {/* <StudentResult/> */}
-      <CrudResult />
+      {/* <CrudResult /> */}
       {/* <CartData /> */}
       {/* <ProductCards/> */}
 
@@ -19,6 +20,7 @@ function App() {
       </div> */}
 
       {/* <TicTacToe /> */}
+      <ApiCalling810 />
     </div>
   );
 }
