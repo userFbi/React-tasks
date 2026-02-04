@@ -2,6 +2,7 @@ import ApiCalling810 from './ApiCall/ApiCalling810';
 import RickMortyApi from './ApiCall/RickMortyApi';
 import './App.css';
 import CartData from './CartData/CartData';
+import ApiPosting from './Post Method/ApiPosting';
 import ProductCards from './ProductCards/ProductCards';
 import CrudResult from './ResultCrud/CrudResult';
 import TicTacToe from './TicTacToe/TicTacToe';
@@ -20,7 +21,9 @@ function App() {
       </div> */}
 
       {/* <TicTacToe /> */}
-      <ApiCalling810 />
+      {/* <ApiCalling810 /> */}
+
+      <ApiPosting />
     </div>
   );
 }
