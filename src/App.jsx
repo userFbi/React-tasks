@@ -1,5 +1,8 @@
 import ApiCalling810 from './ApiCall/ApiCalling810';
 import RickMortyApi from './ApiCall/RickMortyApi';
+import ApiCrud from './ApiCrud/ApiCrud';
+import Demo from './ApiCrud/Demo';
+
 import './App.css';
 import CartData from './CartData/CartData';
 import ApiPosting from './Post Method/ApiPosting';
@@ -7,6 +10,7 @@ import ProductCards from './ProductCards/ProductCards';
 import CrudResult from './ResultCrud/CrudResult';
 import TicTacToe from './TicTacToe/TicTacToe';
 // import StudentResult from './useStateResulte/Student';
+
 
 function App() {
   return (
@@ -23,7 +27,11 @@ function App() {
       {/* <TicTacToe /> */}
       {/* <ApiCalling810 /> */}
 
-      <ApiPosting />
+      {/* <ApiPosting /> */}
+
+      {/* <ApiCrud /> */}
+
+      <Demo />
     </div>
   );
 }
