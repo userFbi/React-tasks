@@ -2,6 +2,7 @@ import ApiCalling810 from './ApiCall/ApiCalling810';
 import RickMortyApi from './ApiCall/RickMortyApi';
 import ApiCrud from './ApiCrud/ApiCrud';
 import Demo from './ApiCrud/Demo';
+import Try from './ApiCrud/Try';
 
 import './App.css';
 import CartData from './CartData/CartData';
@@ -31,7 +32,8 @@ function App() {
 
       {/* <ApiCrud /> */}
 
-      <Demo />
+      {/* <Demo /> */}
+      <Try />
     </div>
   );
 }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Be My Valentine 💖</title>
+
+    <!-- Cute Google font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ffd6e0, #ffeaf4, #ffc2d1);
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 3rem;
+        border-radius: 30px;
+        box-shadow: 0 20px 50px rgba(255, 105, 135, 0.25);
+        backdrop-filter: blur(10px);
+        max-width: 420px;
+        transition: 0.4s;
+      }
+
+      h1 {
+        font-family: 'Pacifico', cursive;
+        color: #ff4d6d;
+        font-size: 2.6rem;
+        margin-bottom: 1rem;
+      }
+
+      .emoji {
+        font-size: 85px;
+        animation: bounce 1.6s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 25px;
+      }
+
+      button {
+        padding: 14px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+
+      #yesBtn {
+        background: linear-gradient(45deg, #ff4d6d, #ff758f);
+        color: white;
+        font-weight: bold;
+        transform: scale(1);
+        box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+      }
+
+      #yesBtn:hover {
+        transform: scale(1.1);
+      }
+
+      #noBtn {
+        background: #9e9e9e;
+        color: white;
+        position: relative;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* floating hearts */
+      .heart {
+        position: absolute;
+        color: #ff4d6d;
+        animation: float 6s linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(100vh);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(-10vh);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container" id="mainCard">
+      <div class="emoji">🥺💗</div>
+      <h1>Will you be my Valentine?</h1>
+
+      <div class="buttons">
+        <button id="yesBtn" onclick="celebrate()">Yes 💕</button>
+        <button id="noBtn" onmouseover="moveButton()" onclick="growYes()">
+          No 🙈
+        </button>
+      </div>
+    </div>
+
+    <div class="container hidden" id="successCard">
+      <div class="emoji">🎉💖</div>
+      <h1>Yaaay!! You said YES 😘</h1>
+      <p>Best day ever. I love you sooo much ❤️</p>
+    </div>
+
+    <script>
+      const yesBtn = document.getElementById('yesBtn')
+      let scale = 1
+
+      // NO button escapes
+      function moveButton() {
+        const btn = document.getElementById('noBtn')
+        const x = Math.random() * (window.innerWidth - btn.offsetWidth)
+        const y = Math.random() * (window.innerHeight - btn.offsetHeight)
+
+        btn.style.position = 'absolute'
+        btn.style.left = x + 'px'
+        btn.style.top = y + 'px'
+      }
+
+      // YES grows cutely
+      function growYes() {
+        scale += 0.3
+        yesBtn.style.transform = `scale(${scale})`
+
+        if (scale > 1.5) yesBtn.innerText = 'Please 🥺'
+        if (scale > 2) yesBtn.innerText = 'Pretty please 💗'
+        if (scale > 2.8) yesBtn.innerText = 'Just say YES 😘'
+        if (scale > 3.5) yesBtn.innerText = 'You love me 😆'
+      }
+
+      function celebrate() {
+        document.getElementById('mainCard').classList.add('hidden')
+        document.getElementById('successCard').classList.remove('hidden')
+        startHearts()
+      }
+
+      // floating hearts animation
+      function startHearts() {
+        setInterval(() => {
+          const heart = document.createElement('div')
+          heart.className = 'heart'
+          heart.innerText = '❤'
+          heart.style.left = Math.random() * 100 + 'vw'
+          heart.style.fontSize = 14 + Math.random() * 25 + 'px'
+          document.body.appendChild(heart)
+          setTimeout(() => heart.remove(), 6000)
+        }, 150)
+      }
+    </script>
+  </body>
+</html>

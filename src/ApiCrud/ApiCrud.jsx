@@ -116,7 +116,7 @@ const ApiCrud = () => {
             </Formik>
 
             <table border={1}>
-                <thead> ``
+                <thead>
                     <tr>
                         <td>username</td>
                         <td>password</td>
@@ -127,7 +127,7 @@ const ApiCrud = () => {
                 <tbody>
                     {
                         data.map((i, index) => (
-                            <tr key={index}>
+                            <tr key={i._id}>
                                 <td>{i.username}</td>
                                 <td>{i.password}</td>
                                 <td>
