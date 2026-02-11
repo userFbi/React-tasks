@@ -2,12 +2,12 @@ import ApiCalling810 from './ApiCall/ApiCalling810';
 import RickMortyApi from './ApiCall/RickMortyApi';
 import ApiCrud from './ApiCrud/ApiCrud';
 import Demo from './ApiCrud/Demo';
-import Try from './ApiCrud/Try';
 
 import './App.css';
 import CartData from './CartData/CartData';
 import ApiPosting from './Post Method/ApiPosting';
 import ProductCards from './ProductCards/ProductCards';
+import ProductCardApi from './ProductCardsApi/ProductCardApi';
 import CrudResult from './ResultCrud/CrudResult';
 import TicTacToe from './TicTacToe/TicTacToe';
 // import StudentResult from './useStateResulte/Student';
@@ -33,7 +33,8 @@ function App() {
       {/* <ApiCrud /> */}
 
       {/* <Demo /> */}
-      <Try />
+
+      <ProductCardApi />
     </div>
   );
 }

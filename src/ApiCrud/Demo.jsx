@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import './try.css'
+// import './try.css'
 
 const Demo = () => {
 
