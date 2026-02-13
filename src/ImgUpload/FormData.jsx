@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { Field, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
+import './formdata.css'
 
-const FormData = () => {
+const ImpUpload = () => {
 
     const token = "xy8fn8IsmAmPf3mo"
     const [data, setData] = useState([])
@@ -28,7 +29,6 @@ const FormData = () => {
     useEffect(() => {
         dataView()
     }, [])
-
 
     const handleSubmit = (values, { resetForm }) => {
 
@@ -73,22 +73,21 @@ const FormData = () => {
                             }
                             name="image"
                         /><br /><br />
-
                         <button type='submit'>Submit</button><br /><br />
                     </Form>
                 )}
             </Formik>
-
-            {
-                data.map((i, index) => (
+            <div className="main-div">
+                {data.map((i, index) => (
                     <div className='card' key={index}>
-                        <img src={i.image} alt={i.name} />
+                        {i.image && <img src={i.image} alt={i.name} />}
                         <h3>{i.name}</h3>
                     </div>
                 ))
-            }
+                }
+            </div>
         </div>
     )
 }
 
-export default FormData
+export default ImpUpload

@@ -1,0 +1,16 @@
+.main-div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 500px;
+  height: 400px;
+  margin: 15px;
+}
+
+.card img {
+  width: 450px;
+  height: 300px;
+}
