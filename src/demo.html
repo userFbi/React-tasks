@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>?</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', cursive, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ff9ec4, #ffc1e3, #ffd6ec);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Center Card */
+      .card {
+        min-height: 360px;
+        height: auto;
+        background: white;
+        padding: 40px 60px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+        transition: 0.4s;
+      }
+
+      /* NEW: top gif */
+      .top-gif {
+        width: 120px;
+        margin-bottom: 15px;
+      }
+
+      .card h1 {
+        margin-bottom: 30px;
+        font-size: 40px;
+        color: #ff4d88;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+      }
+
+      button {
+        padding: 12px 28px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+      }
+
+      #yesBtn {
+        background: #ff4d88;
+        color: white;
+      }
+
+      #noBtn {
+        background: #333;
+        color: white;
+        position: relative;
+      }
+
+      /* Success section */
+      .success {
+        display: none;
+        text-align: center;
+      }
+
+      .success img {
+        width: 300px;
+        margin-bottom: 20px;
+      }
+
+      .small-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #ff4d88;
+        color: white;
+        border-radius: 25px;
+      }
+
+      /* Polaroid Scene */
+      #polaroidScene {
+        display: none;
+        position: fixed; /* important */
+        inset: 0; /* top:0 left:0 right:0 bottom:0 */
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ffd6ec, #ffe6f5);
+        z-index: 9999; /* always above card */
+      }
+      .polaroid {
+        position: absolute;
+        width: 200px; /* bigger */
+        height: 240px; /* bigger */
+        background: white;
+        padding: 12px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+
+        animation: fall linear forwards;
+        transition: transform 0.4s ease;
+      }
+
+      .polaroid img {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+      }
+
+      /* smoother fall */
+      @keyframes fall {
+        0% {
+          transform: translateY(-200px) rotate(var(--rotate));
+        }
+        100% {
+          transform: translateY(110vh) rotate(var(--rotate));
+        }
+      }
+
+      /* smoother hover (not paused/jumpy) */
+      .polaroid:hover {
+        transform: scale(1.25) rotate(0deg);
+        filter: brightness(1.1);
+        z-index: 10;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card" id="mainCard">
+      <!-- NEW GIF ABOVE TITLE -->
+      <img
+        class="top-gif"
+        src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+        alt="cute"
+      />
+
+      <h1 id="question">Will you be my Valentine?</h1>
+
+      <div class="buttons">
+        <button id="yesBtn">Yes ❤️</button>
+        <button id="noBtn">No</button>
+      </div>
+
+      <div class="success" id="successContent">
+        <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
+        <h2>Best decision ever! 💞</h2>
+        <button class="small-btn" id="nextBtn">
+          Something is waiting for you ✨
+        </button>
+      </div>
+    </div>
+
+    <div id="polaroidScene"></div>
+
+    <script>
+      const noBtn = document.getElementById('noBtn')
+      const yesBtn = document.getElementById('yesBtn')
+      const question = document.getElementById('question')
+      const successContent = document.getElementById('successContent')
+      const nextBtn = document.getElementById('nextBtn')
+      const polaroidScene = document.getElementById('polaroidScene')
+
+      const noTexts = [
+        'No',
+        'Are you sure?',
+        'Really sure?',
+        'Think again',
+        'Last chance',
+        'Surely not?',
+        'You might regret this',
+        'Dont have any other change just say "Yes"!'
+      ]
+
+      let noClickCount = 0
+      let yesScale = 1
+
+      /* YES becomes 3x bigger every click */
+      noBtn.addEventListener('click', () => {
+        if (noClickCount < noTexts.length - 1) {
+          noClickCount++
+          noBtn.innerText = noTexts[noClickCount]
+
+          noBtn.style.position = 'fixed'
+
+          const maxX = window.innerWidth - 100
+          const maxY = window.innerHeight - 50
+
+          noBtn.style.left = Math.random() * maxX + 'px'
+          noBtn.style.top = Math.random() * maxY + 'px'
+
+          /* 3x grow */
+          yesScale *= 1.5
+          yesBtn.style.transform = `scale(${yesScale})`
+        } else {
+          noBtn.disabled = true
+        }
+      })
+
+      yesBtn.addEventListener('click', () => {
+        document.querySelector('.buttons').style.display = 'none'
+        question.style.display = 'none'
+        successContent.style.display = 'block'
+      })
+
+      nextBtn.addEventListener('click', () => {
+        document.getElementById('mainCard').style.display = 'none'
+        polaroidScene.style.display = 'block'
+        createPolaroids()
+      })
+
+      function createPolaroids() {
+        const photos = [
+          'images/1.jpg',
+          'images/2.jpg',
+          'images/3.jpg',
+          'images/4.jpg',
+          'images/5.jpg',
+          'images/6.jpg'
+        ]
+
+        let photoIndex = 0
+        const maxOnScreen = 5 // 👈 only 4–5 at once
+
+        function spawnPolaroid() {
+          // limit how many are visible
+          if (polaroidScene.children.length >= maxOnScreen) return
+
+          const polaroid = document.createElement('div')
+          polaroid.className = 'polaroid'
+
+          const duration = 9 + Math.random() * 4
+          polaroid.style.left = Math.random() * 85 + 'vw'
+          polaroid.style.animationDuration = duration + 's'
+          polaroid.style.setProperty(
+            '--rotate',
+            Math.random() * 30 - 15 + 'deg'
+          )
+
+          const img = document.createElement('img')
+          img.src = photos[photoIndex % photos.length]
+          photoIndex++
+
+          polaroid.appendChild(img)
+          polaroidScene.appendChild(polaroid)
+
+          /* remove when reaches bottom */
+          setTimeout(() => {
+            polaroid.remove()
+          }, duration * 1000)
+
+          /* hover center view */
+          polaroid.addEventListener('mouseenter', () => {
+            polaroid.style.animation = 'none'
+            polaroid.style.position = 'fixed'
+            polaroid.style.left = '50%'
+            polaroid.style.top = '50%'
+            polaroid.style.transform = 'translate(-50%, -50%) scale(2.2)'
+            polaroid.style.zIndex = 10000
+          })
+
+          polaroid.addEventListener('mouseleave', () => {
+            polaroid.style.position = 'absolute'
+            polaroid.style.animation = `fall ${duration}s linear forwards`
+            polaroid.style.left = Math.random() * 85 + 'vw'
+            polaroid.style.transform = ''
+            polaroid.style.zIndex = ''
+          })
+        }
+
+        // spawn continuously (not bunch)
+        setInterval(spawnPolaroid, 500) // 👈 new one every 0.5s
+      }
+      polaroidScene.addEventListener('mouseover', e => {
+        const card = e.target.closest('.polaroid')
+        if (!card) return
+
+        card.style.animation = 'none' // stop ONLY this one
+        card.style.position = 'fixed'
+        card.style.left = '50%'
+        card.style.top = '50%'
+        card.style.transform = 'translate(-50%, -50%) scale(2)'
+        card.style.zIndex = 10000
+      })
+    </script>
+  </body>
+</html>
