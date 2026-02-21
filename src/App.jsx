@@ -10,6 +10,7 @@ import FormData from './ImgUpload/FormData';
 import ApiPosting from './Post Method/ApiPosting';
 import ProductCards from './ProductCards/ProductCards';
 import ProductCardApi from './ProductCardsApi/ProductCardApi';
+import FormUi from './Redux-tk/FormUi';
 import CrudResult from './ResultCrud/CrudResult';
 import TicTacToe from './TicTacToe/TicTacToe';
 // import StudentResult from './useStateResulte/Student';
@@ -19,7 +20,7 @@ function App() {
   return (
     <div className="App">
       {/* <StudentResult/> */}
-      {/* <CrudResult /> */}
+      {/* <CrudResult />   */}
       {/* <CartData /> */}
       {/* <ProductCards/> */}
 
@@ -28,7 +29,7 @@ function App() {
       </div> */}
 
       {/* <TicTacToe /> */}
-      {/* <ApiCalling810 /> */}
+      {/* <ApiCalling810 />    */}
 
       {/* <ApiPosting /> */}
 
@@ -37,8 +38,10 @@ function App() {
       {/* <Demo /> */}
 
       {/* <ProductCardApi /> */}
-      <FormData />
+      {/* <FormData /> */}
       {/* <Dummy /> */}
+
+      <FormUi></FormUi>
     </div>
   );
 }

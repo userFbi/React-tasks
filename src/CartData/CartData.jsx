@@ -59,9 +59,9 @@ const CartData = () => {
                     <table border={1}>
                         <thead>
                             <tr >
-                                <td>FirstName</td>
-                                <td>LastName</td>
-                                <td>Email</td>
+                                <th>FirstName</th>
+                                <th>LastName</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
