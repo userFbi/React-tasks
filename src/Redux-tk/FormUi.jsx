@@ -1,73 +1,61 @@
-import { Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUser, deleteUser } from './FormSlice';
+
 
 const FormUi = () => {
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
 
-    const [data, setData] = useState([])
-    const [ini, setIni] = useState({
-        initialValues: {
-            name: "",
-            surname: "",
-            age: "",
-        }
-    })
+    // Get data and dispatch function from Redux
+    const users = useSelector((state) => state.users);
+    const dispatch = useDispatch();
 
-    const handleSubmit = (values, { resetForm }) => {
-        setData([...data, values]);
-        resetForm()
-        setIni({
-            name: "",
-            surname: "",
-            age: "",
-        })
-    }
+    const handleAdd = (e) => {
+        e.preventDefault();
+        if (!name || !age) return;
 
-    const handleDelete = (index) => {
-        const filteredData = data.filter((_, i) => i !== index);
-        setData(filteredData);
-
-    }
-
-
+        dispatch(addUser({ name, age })); // Send data to Redux
+        setName(''); // Clear inputs
+        setAge('');
+    };
 
     return (
-        <>
-            <h1>Crud With Redux</h1>
-            <Formik
-                initialValues={ini}
-                enableReinitialize
-                onSubmit={handleSubmit}
-            >
-                <Form><br />
-                    <Field type='text' name='name' placeholder='Enter your name' /><br /><br />
-                    <Field type='text' name='surname' placeholder='Enter your surname' /><br /><br />
-                    <Field type='number' name='age' placeholder='Enter your age' /><br /><br />
-                    <button type='submit'>submit</button><br /><br /><hr />
-                </Form>
-            </Formik>
+        <div >
+            <h2>Simple Redux CRUD</h2>
 
-            <table border={1}>
+            <form onSubmit={handleAdd}>
+                <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /> <br /><br />
+                <input placeholder="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} /><br /><br />
+                <button type="submit">Add</button><br /><br />
+            </form>
+
+            <table border="1">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Surname</th>
                         <th>Age</th>
                         <th>Delete</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
+                    {users?.map((user, index) => (
                         <tr key={index}>
-                            <td>{item.name}</td>
-                            <td>{item.surname}</td>
-                            <td>{item.age}</td>
-                            <td><button onClick={() => handleDelete(index)}>Delete</button></td>
+                            <td>{user.name}</td>
+                            <td>{user.age}</td>
+                            <td>
+                                <button onClick={() => dispatch(deleteUser(index))}>Delete</button>
+                            </td>
+                            <td>
+                                {/* <button onClick={() => dispatch(editeUser(index))}>Edit</button> */}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default FormUi;
+export default FormUi; 

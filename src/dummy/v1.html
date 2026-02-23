@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusOS | Pinterest Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+      :root {
+        --pinterest-red: #e60023;
+        --pinterest-gray: #efefef;
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #ffffff;
+      }
+
+      .page-content {
+        display: none;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      .page-content.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Pinterest Masonry-style Card */
+      .pin-card {
+        border-radius: 32px;
+        transition: transform 0.2s ease;
+      }
+      .pin-card:hover {
+        transform: scale(1.01);
+      }
+
+      .btn-primary {
+        background-color: var(--pinterest-red);
+        color: white;
+        transition: opacity 0.2s;
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+
+      /* Focus Mode Styles */
+      .focus-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.95);
+        z-index: 40;
+        display: none;
+        backdrop-blur: 10px;
+      }
+      .is-focusing .focus-overlay {
+        display: block;
+      }
+      .is-focusing #focus-widget {
+        z-index: 50;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body class="text-slate-900 overflow-hidden h-screen flex">
+    <div id="focus-bg" class="focus-overlay"></div>
+
+    <aside
+      class="w-[280px] border-r bg-white flex flex-col h-full z-20 transition-all duration-300"
+      id="sidebar"
+    >
+      <div class="p-8">
+        <div class="flex items-center gap-2 mb-10">
+          <div
+            class="w-9 h-9 bg-[#e60023] rounded-full flex items-center justify-center text-white"
+          >
+            <i data-lucide="target" size="20"></i>
+          </div>
+          <span class="font-bold text-xl tracking-tight">FocusOS</span>
+        </div>
+
+        <nav class="space-y-2" id="main-nav">
+          <button
+            onclick="navigate('dashboard')"
+            class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-full font-bold transition bg-black text-white"
+            data-page="dashboard"
+          >
+            <i data-lucide="home" size="20"></i> Home
+          </button>
+          <button
+            onclick="navigate('schedule')"
+            class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-full font-bold transition text-slate-500 hover:bg-slate-100"
+            data-page="schedule"
+          >
+            <i data-lucide="calendar" size="20"></i> Schedule
+          </button>
+          <button
+            onclick="navigate('settings')"
+            class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-full font-bold transition text-slate-500 hover:bg-slate-100"
+            data-page="settings"
+          >
+            <i data-lucide="settings" size="20"></i> Settings
+          </button>
+        </nav>
+      </div>
+
+      <div class="mt-auto p-8">
+        <div class="bg-slate-100 p-4 rounded-[24px] flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-slate-300"></div>
+          <div>
+            <p class="text-xs font-bold">John Doe</p>
+            <p class="text-[10px] text-slate-500">Business Account</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+      <header
+        class="h-20 px-10 flex justify-between items-center bg-white shrink-0"
+      >
+        <div class="flex items-center gap-6">
+          <button
+            onclick="toggleSidebar()"
+            class="p-2 hover:bg-slate-100 rounded-full"
+          >
+            <i data-lucide="menu" size="20"></i>
+          </button>
+          <h2 id="page-title" class="text-lg font-bold">Home</h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <div
+            id="digital-clock"
+            class="text-sm font-bold bg-slate-100 px-4 py-2 rounded-full"
+          >
+            09:41 AM
+          </div>
+          <button class="p-2 hover:bg-slate-100 rounded-full relative">
+            <i data-lucide="bell" size="22"></i>
+            <span
+              class="absolute top-2 right-2 w-2 h-2 bg-[#e60023] rounded-full"
+            ></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+        <section id="page-dashboard" class="page-content active">
+          <div class="max-w-6xl mx-auto grid grid-cols-12 gap-8">
+            <div
+              id="focus-widget"
+              class="col-span-12 lg:col-span-5 bg-white pin-card p-10 border border-slate-100 shadow-xl shadow-slate-100/50"
+            >
+              <div class="flex justify-between items-center mb-10">
+                <span
+                  class="bg-slate-100 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
+                  >Deep Work</span
+                >
+                <i data-lucide="flame" class="text-[#e60023]"></i>
+              </div>
+              <div class="text-center">
+                <div
+                  id="timer-display"
+                  class="text-8xl font-black tracking-tighter mb-10"
+                >
+                  25:00
+                </div>
+                <div class="flex gap-4">
+                  <button
+                    id="timer-btn"
+                    onclick="toggleTimer()"
+                    class="flex-1 btn-primary py-4 rounded-full font-bold text-lg"
+                  >
+                    Start Session
+                  </button>
+                  <button
+                    onclick="resetTimer()"
+                    class="w-16 h-16 bg-slate-100 flex items-center justify-center rounded-full hover:bg-slate-200 transition"
+                  >
+                    <i data-lucide="refresh-cw" size="20"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-12 lg:col-span-7 space-y-6">
+              <div class="bg-slate-50 pin-card p-8">
+                <h3 class="font-bold text-xl mb-6">Today's Priorities</h3>
+                <div class="flex gap-2 mb-6">
+                  <input
+                    type="text"
+                    id="todo-input"
+                    placeholder="Create something new..."
+                    class="flex-1 bg-white border-none rounded-full px-6 py-3 focus:ring-2 focus:ring-[#e60023] outline-none shadow-sm"
+                  />
+                  <button
+                    onclick="addTodo()"
+                    class="bg-black text-white px-8 rounded-full font-bold"
+                  >
+                    Add
+                  </button>
+                </div>
+                <ul id="todo-list" class="space-y-3"></ul>
+              </div>
+            </div>
+
+            <div class="col-span-12 bg-[#efefef] pin-card p-10 min-h-[300px]">
+              <div class="flex items-center gap-3 mb-4">
+                <i data-lucide="edit-3" size="18"></i>
+                <h3 class="font-bold">Brainstorming Space</h3>
+              </div>
+              <textarea
+                id="scratchpad"
+                class="w-full bg-transparent resize-none focus:outline-none text-lg leading-relaxed text-slate-700"
+                placeholder="What's on your mind?"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-schedule" class="page-content">
+          <div
+            class="max-w-4xl mx-auto bg-white pin-card p-10 border border-slate-100"
+          >
+            <h3 class="text-2xl font-bold mb-8">Weekly View</h3>
+            <div class="space-y-4">
+              <div
+                class="flex items-center gap-6 p-4 border-l-4 border-[#e60023] bg-slate-50 rounded-r-2xl"
+              >
+                <span class="text-sm font-bold text-slate-400">09:00 AM</span>
+                <p class="font-bold">Design Sprint Review</p>
+              </div>
+              <div
+                class="flex items-center gap-6 p-4 border-l-4 border-slate-200 bg-white rounded-r-2xl"
+              >
+                <span class="text-sm font-bold text-slate-400">11:30 AM</span>
+                <p class="font-bold">Sync with Engineering</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="page-settings" class="page-content">
+          <div
+            class="max-w-2xl mx-auto bg-white pin-card p-10 border border-slate-100"
+          >
+            <h3 class="text-xl font-bold mb-8">Personalization</h3>
+            <div class="space-y-8">
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-bold">Silent Mode</p>
+                  <p class="text-xs text-slate-500">
+                    Mute all notifications during focus
+                  </p>
+                </div>
+                <div
+                  class="w-12 h-6 bg-[#e60023] rounded-full flex items-center px-1"
+                >
+                  <div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+                </div>
+              </div>
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-bold">Masonry Layout</p>
+                  <p class="text-xs text-slate-500">
+                    Auto-arrange workspace widgets
+                  </p>
+                </div>
+                <div
+                  class="w-12 h-6 bg-slate-200 rounded-full flex items-center px-1"
+                >
+                  <div class="w-4 h-4 bg-white rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      lucide.createIcons()
+
+      // 1. NAVIGATION
+      function navigate(pageId) {
+        document
+          .querySelectorAll('.page-content')
+          .forEach(p => p.classList.remove('active'))
+        document.getElementById('page-' + pageId).classList.add('active')
+
+        const titles = {
+          dashboard: 'Home',
+          schedule: 'Schedule',
+          settings: 'Settings'
+        }
+        document.getElementById('page-title').innerText = titles[pageId]
+
+        document.querySelectorAll('.nav-item').forEach(btn => {
+          btn.classList.remove('bg-black', 'text-white')
+          btn.classList.add('text-slate-500', 'hover:bg-slate-100')
+          if (btn.getAttribute('data-page') === pageId) {
+            btn.classList.add('bg-black', 'text-white')
+            btn.classList.remove('text-slate-500', 'hover:bg-slate-100')
+          }
+        })
+      }
+
+      // 2. SIDEBAR TOGGLE
+      let sidebarOpen = true
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar')
+        sidebarOpen = !sidebarOpen
+        sidebar.style.marginLeft = sidebarOpen ? '0px' : '-280px'
+      }
+
+      // 3. CLOCK
+      function updateClock() {
+        const now = new Date()
+        document.getElementById('digital-clock').innerText =
+          now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+      setInterval(updateClock, 1000)
+      updateClock()
+
+      // 4. TIMER & FOCUS MODE
+      let timeLeft = 1500
+      let timerId = null
+
+      function toggleTimer() {
+        const btn = document.getElementById('timer-btn')
+        if (timerId) {
+          clearInterval(timerId)
+          timerId = null
+          btn.innerText = 'Start Session'
+          document.body.classList.remove('is-focusing')
+        } else {
+          document.body.classList.add('is-focusing')
+          btn.innerText = 'Pause'
+          timerId = setInterval(() => {
+            timeLeft--
+            updateTimerDisplay()
+            if (timeLeft <= 0) {
+              clearInterval(timerId)
+              alert('Session complete!')
+            }
+          }, 1000)
+        }
+      }
+
+      function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60)
+        const secs = timeLeft % 60
+        document.getElementById('timer-display').innerText = `${mins}:${secs
+          .toString()
+          .padStart(2, '0')}`
+      }
+
+      function resetTimer() {
+        clearInterval(timerId)
+        timerId = null
+        timeLeft = 1500
+        updateTimerDisplay()
+        document.getElementById('timer-btn').innerText = 'Start Session'
+        document.body.classList.remove('is-focusing')
+      }
+
+      // 5. TODO LOGIC
+      let todos = JSON.parse(localStorage.getItem('pin_todos')) || [
+        { text: 'Explore the new theme', done: false }
+      ]
+      function renderTodos() {
+        const list = document.getElementById('todo-list')
+        list.innerHTML = todos
+          .map(
+            (t, i) => `
+                <li class="flex items-center justify-between p-4 bg-white rounded-2xl group border border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${
+                          t.done ? 'checked' : ''
+                        } onchange="toggleTodo(${i})" class="w-5 h-5 rounded-full border-2 border-slate-300 text-[#e60023] focus:ring-[#e60023] cursor-pointer">
+                        <span class="font-medium ${
+                          t.done
+                            ? 'line-through text-slate-300'
+                            : 'text-slate-700'
+                        }">${t.text}</span>
+                    </div>
+                    <button onclick="removeTodo(${i})" class="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-black">
+                        <i data-lucide="x-circle" size="18"></i>
+                    </button>
+                </li>
+            `
+          )
+          .join('')
+        lucide.createIcons()
+        localStorage.setItem('pin_todos', JSON.stringify(todos))
+      }
+      function addTodo() {
+        const input = document.getElementById('todo-input')
+        if (input.value.trim()) {
+          todos.unshift({ text: input.value, done: false })
+          input.value = ''
+          renderTodos()
+        }
+      }
+      function toggleTodo(i) {
+        todos[i].done = !todos[i].done
+        renderTodos()
+      }
+      function removeTodo(i) {
+        todos.splice(i, 1)
+        renderTodos()
+      }
+
+      // 6. SCRATCHPAD
+      const pad = document.getElementById('scratchpad')
+      pad.value = localStorage.getItem('pin_scratch') || ''
+      pad.addEventListener('input', e =>
+        localStorage.setItem('pin_scratch', e.target.value)
+      )
+
+      renderTodos()
+    </script>
+  </body>
+</html>

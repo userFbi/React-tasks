@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workspace Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+      :root {
+        --sidebar-width: 260px;
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        letter-spacing: -0.01em;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+      }
+
+      /* Subtle Animation for Focus Mode */
+      .focus-dim {
+        opacity: 0.1;
+        filter: blur(4px);
+        pointer-events: none;
+        transition: all 0.5s ease;
+      }
+      .focus-active {
+        transform: scale(1.05);
+        transition: all 0.5s ease;
+        z-index: 50;
+      }
+    </style>
+  </head>
+  <body class="bg-[#F8FAFC] text-slate-900 overflow-hidden h-screen flex">
+    <aside
+      class="w-[260px] border-r bg-white flex flex-col h-full transition-all duration-300"
+      id="sidebar"
+    >
+      <div class="p-6">
+        <div class="flex items-center gap-3 mb-8">
+          <div
+            class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white"
+          >
+            <i data-lucide="command" size="18"></i>
+          </div>
+          <span class="font-bold text-lg tracking-tight">FocusOS</span>
+        </div>
+
+        <nav class="space-y-1">
+          <a
+            href="#"
+            class="flex items-center gap-3 px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg font-medium transition"
+          >
+            <i data-lucide="layout-grid" size="18"></i> Dashboard
+          </a>
+          <a
+            href="#"
+            class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-50 rounded-lg transition"
+          >
+            <i data-lucide="calendar" size="18"></i> Schedule
+          </a>
+          <a
+            href="#"
+            class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-50 rounded-lg transition"
+          >
+            <i data-lucide="settings" size="18"></i> Settings
+          </a>
+        </nav>
+      </div>
+
+      <div class="mt-auto p-6 border-t">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold"
+          >
+            JD
+          </div>
+          <div>
+            <p class="text-sm font-semibold">John Doe</p>
+            <p class="text-xs text-slate-400">Pro Plan</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+      <header
+        class="h-16 border-b bg-white/80 backdrop-blur-md px-8 flex justify-between items-center shrink-0"
+      >
+        <div class="flex items-center gap-4">
+          <button
+            onclick="toggleSidebar()"
+            class="text-slate-400 hover:text-slate-600"
+          >
+            <i data-lucide="menu" size="20"></i>
+          </button>
+          <div
+            id="date-display"
+            class="text-sm font-medium text-slate-500 uppercase tracking-widest"
+          >
+            Monday, Feb 23
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <div
+            id="digital-clock"
+            class="font-mono text-sm font-semibold bg-slate-100 px-3 py-1 rounded-full"
+          >
+            09:41 AM
+          </div>
+          <button class="relative text-slate-400">
+            <i data-lucide="bell" size="20"></i>
+            <span
+              class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"
+            ></span>
+          </button>
+        </div>
+      </header>
+
+      <div
+        class="flex-1 overflow-y-auto p-8 custom-scrollbar transition-all duration-500"
+        id="main-grid"
+      >
+        <div class="max-w-6xl mx-auto grid grid-cols-12 gap-6">
+          <div class="col-span-12 mb-2">
+            <h2 class="text-3xl font-bold text-slate-900">
+              Good morning, John.
+            </h2>
+            <p class="text-slate-500">You have 4 tasks to complete today.</p>
+          </div>
+
+          <div
+            id="focus-widget"
+            class="col-span-12 lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm transition-all"
+          >
+            <div class="flex justify-between items-start mb-8">
+              <div>
+                <h3 class="font-semibold text-slate-800">Focus Session</h3>
+                <p class="text-xs text-slate-400">Pomodoro Technique</p>
+              </div>
+              <i data-lucide="zap" class="text-amber-400" size="20"></i>
+            </div>
+            <div class="text-center">
+              <div
+                id="timer-display"
+                class="text-6xl font-bold tracking-tighter text-slate-900 mb-8"
+              >
+                25:00
+              </div>
+              <div class="flex gap-3">
+                <button
+                  onclick="toggleTimer()"
+                  id="timer-btn"
+                  class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-indigo-600 transition shadow-lg shadow-indigo-100"
+                >
+                  Start Session
+                </button>
+                <button
+                  onclick="resetTimer()"
+                  class="px-4 py-3 bg-slate-100 rounded-xl hover:bg-slate-200 transition"
+                >
+                  <i
+                    data-lucide="rotate-ccw"
+                    size="18"
+                    class="text-slate-600"
+                  ></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-span-12 lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"
+          >
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="font-semibold text-slate-800">Priority Tasks</h3>
+              <button
+                onclick="addTodo()"
+                class="text-indigo-600 text-sm font-semibold flex items-center gap-1 hover:underline"
+              >
+                <i data-lucide="plus" size="16"></i> Add New
+              </button>
+            </div>
+            <div class="flex mb-4">
+              <input
+                type="text"
+                id="todo-input"
+                placeholder="What needs to be done?"
+                class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 transition outline-none"
+              />
+            </div>
+            <ul id="todo-list" class="space-y-2"></ul>
+          </div>
+
+          <div
+            class="col-span-12 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[300px]"
+          >
+            <div class="px-6 py-4 border-b flex items-center gap-2">
+              <i data-lucide="pen-tool" size="18" class="text-slate-400"></i>
+              <h3 class="font-semibold text-slate-800">Journal & Scratchpad</h3>
+            </div>
+            <textarea
+              id="scratchpad"
+              class="w-full flex-1 p-6 resize-none focus:outline-none text-slate-600 leading-relaxed bg-slate-50/30"
+              placeholder="Start writing something brilliant..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      lucide.createIcons()
+
+      // 1. Sidebar Toggle
+      let sidebarOpen = true
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar')
+        sidebarOpen = !sidebarOpen
+        sidebar.style.marginLeft = sidebarOpen ? '0px' : '-260px'
+      }
+
+      // 2. Clock & Date
+      function updateClock() {
+        const now = new Date()
+        document.getElementById('digital-clock').innerText =
+          now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        document.getElementById('date-display').innerText =
+          now.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'short',
+            day: 'numeric'
+          })
+      }
+      setInterval(updateClock, 1000)
+      updateClock()
+
+      // 3. Focus Mode Logic (The "Professional" Touch)
+      let timeLeft = 1500
+      let timerId = null
+
+      function toggleTimer() {
+        const btn = document.getElementById('timer-btn')
+        const grid = document.getElementById('main-grid')
+        const focusWidget = document.getElementById('focus-widget')
+
+        if (timerId) {
+          clearInterval(timerId)
+          timerId = null
+          btn.innerText = 'Start Session'
+          btn.className =
+            'flex-1 bg-slate-900 text-white py-3 rounded-xl font-semibold transition'
+          // Exit Focus Mode
+          document
+            .querySelectorAll('.col-span-12, header, aside')
+            .forEach(el => {
+              if (el.id !== 'focus-widget') el.classList.remove('focus-dim')
+            })
+          focusWidget.classList.remove('focus-active')
+        } else {
+          timerId = setInterval(() => {
+            timeLeft--
+            updateTimerDisplay()
+            if (timeLeft <= 0) {
+              clearInterval(timerId)
+              alert('Session complete!')
+            }
+          }, 1000)
+          btn.innerText = 'Pause Session'
+          btn.className =
+            'flex-1 bg-red-500 text-white py-3 rounded-xl font-semibold transition shadow-lg shadow-red-100'
+
+          // Enter Focus Mode
+          document
+            .querySelectorAll('.col-span-12, header, aside')
+            .forEach(el => {
+              if (el.id !== 'focus-widget' && el.tagName !== 'MAIN')
+                el.classList.add('focus-dim')
+            })
+          focusWidget.classList.add('focus-active')
+        }
+      }
+
+      function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60)
+        const secs = timeLeft % 60
+        document.getElementById('timer-display').innerText = `${mins}:${secs
+          .toString()
+          .padStart(2, '0')}`
+      }
+
+      function resetTimer() {
+        clearInterval(timerId)
+        timerId = null
+        timeLeft = 1500
+        updateTimerDisplay()
+        toggleTimer() // Stop and reset UI
+      }
+
+      // 4. Tasks (LocalStorage)
+      let todos = JSON.parse(localStorage.getItem('todos_pro')) || [
+        { text: 'Review quarterly goals', done: false },
+        { text: 'Update project roadmap', done: true }
+      ]
+
+      function renderTodos() {
+        const list = document.getElementById('todo-list')
+        list.innerHTML = todos
+          .map(
+            (t, i) => `
+                <li class="flex items-center justify-between p-4 bg-slate-50/50 rounded-xl group hover:bg-slate-50 transition border border-transparent hover:border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" ${
+                          t.done ? 'checked' : ''
+                        } onchange="toggleTodo(${i})" class="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                        <span class="text-sm ${
+                          t.done
+                            ? 'line-through text-slate-400'
+                            : 'text-slate-700 font-medium'
+                        }">${t.text}</span>
+                    </div>
+                    <button onclick="removeTodo(${i})" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition">
+                        <i data-lucide="trash-2" size="16"></i>
+                    </button>
+                </li>
+            `
+          )
+          .join('')
+        lucide.createIcons()
+        localStorage.setItem('todos_pro', JSON.stringify(todos))
+      }
+
+      function addTodo() {
+        const input = document.getElementById('todo-input')
+        if (input.value.trim()) {
+          todos.unshift({ text: input.value, done: false })
+          input.value = ''
+          renderTodos()
+        }
+      }
+
+      document.getElementById('todo-input').addEventListener('keypress', e => {
+        if (e.key === 'Enter') addTodo()
+      })
+
+      function toggleTodo(i) {
+        todos[i].done = !todos[i].done
+        renderTodos()
+      }
+
+      function removeTodo(i) {
+        todos.splice(i, 1)
+        renderTodos()
+      }
+
+      // 5. Scratchpad
+      const pad = document.getElementById('scratchpad')
+      pad.value = localStorage.getItem('scratchpad_pro') || ''
+      pad.addEventListener('input', e =>
+        localStorage.setItem('scratchpad_pro', e.target.value)
+      )
+
+      renderTodos()
+    </script>
+  </body>
+</html>
