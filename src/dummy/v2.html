@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FocusOS | Pinterest UI</title>
+    <title>FocusOS - Pinterest UI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -17,11 +17,10 @@
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
           Oxygen-Sans, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
-          'Helvetica Neue', Helvetica, '¡Inter!', Arial, sans-serif;
+          'Helvetica Neue', Helvetica, 'Inter', Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
 
-      /* Pinterest Search Bar Look */
       .search-bar {
         background-color: #efefef;
         border-radius: 24px;
@@ -31,14 +30,12 @@
         background-color: #e2e2e2;
       }
 
-      /* Masonry Card Feel */
       .card-masonry {
         border-radius: 16px;
         overflow: hidden;
         transition: transform 0.3s ease;
       }
 
-      /* The "Save" Button Overlay Style */
       .pin-save-btn {
         background-color: var(--pin-red);
         color: white;
@@ -52,78 +49,84 @@
         opacity: 1;
       }
 
-      /* Sidebar Item Pinterest Style */
-      .side-item {
-        border-radius: 8px;
-        font-weight: 600;
-        padding: 12px;
+      .todo-item:hover .delete-btn {
+        opacity: 1;
       }
-      .side-item.active {
-        background-color: #111;
-        color: white;
+      .delete-btn {
+        opacity: 0;
+        transition: opacity 0.2s;
       }
 
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 0px;
+      .focus-logo-container {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .focus-logo-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     </style>
   </head>
   <body class="bg-white text-black">
-    <nav
-      class="fixed top-0 w-full h-20 bg-white z-50 px-4 md:px-8 flex items-center gap-4"
-    >
-      <div
-        class="p-2 hover:bg-slate-100 rounded-full cursor-pointer text-[#e60023]"
-      >
-        <i data-lucide="target" size="32" fill="currentColor"></i>
-      </div>
-
-      <div class="hidden md:flex gap-2">
-        <button
-          onclick="navigate('dashboard')"
-          class="px-4 py-3 font-bold rounded-full bg-black text-white"
-        >
-          Home
-        </button>
-        <button
-          onclick="navigate('explore')"
-          class="px-4 py-3 font-bold rounded-full hover:bg-slate-100"
-        >
-          Explore
-        </button>
-      </div>
-
-      <div class="flex-1 flex items-center search-bar px-4 py-3 gap-3">
-        <i data-lucide="search" size="18" class="text-slate-500"></i>
-        <input
-          type="text"
-          placeholder="Search for focus tools, ideas, or tasks"
-          class="bg-transparent border-none outline-none w-full text-sm"
-        />
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button class="p-3 hover:bg-slate-100 rounded-full">
-          <i data-lucide="bell" size="24"></i>
-        </button>
-        <button class="p-3 hover:bg-slate-100 rounded-full">
-          <i data-lucide="message-circle" size="24"></i>
-        </button>
-        <div
-          class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2 cursor-pointer"
-        >
+    <nav class="fixed top-0 w-full h-20 bg-white z-50 border-b border-slate-50">
+      <div class="max-w-[1280px] mx-auto h-full px-8 flex items-center gap-4">
+        <a href="#" class="focus-logo-container">
           <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
-            alt="User"
+            src="barnd-logo.jpg"
+            alt="Logo"
+            class="w-10 h-10 object-contain"
           />
+        </a>
+
+        <div class="hidden md:flex gap-2">
+          <button class="px-4 py-3 font-bold rounded-full bg-black text-white">
+            Home
+          </button>
+          <a
+            href="explore.html"
+            class="px-4 py-3 font-bold rounded-full hover:bg-slate-100"
+          >
+            Explore
+          </a>
+        </div>
+
+        <div class="flex-1 flex items-center search-bar px-4 py-3 gap-3">
+          <i data-lucide="search" size="18" class="text-slate-500"></i>
+          <input
+            type="text"
+            placeholder="Search for focus tools, ideas, or tasks"
+            class="bg-transparent border-none outline-none w-full text-sm"
+          />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="p-3 hover:bg-slate-100 rounded-full">
+            <i data-lucide="bell" size="24"></i>
+          </button>
+          <button class="p-3 hover:bg-slate-100 rounded-full">
+            <i data-lucide="message-circle" size="24"></i>
+          </button>
+          <div
+            class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2 cursor-pointer"
+          >
+            <img
+              src="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+              alt="User"
+            />
+          </div>
         </div>
       </div>
     </nav>
 
-    <main class="pt-24 px-4 md:px-8 max-w-[1800px] mx-auto">
+    <main class="pt-24 px-8 max-w-[1280px] mx-auto">
       <section
         id="page-dashboard"
-        class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4"
+        class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4"
       >
         <div
           class="card-masonry relative group break-inside-avoid bg-black text-white p-8 mb-4"
@@ -133,7 +136,12 @@
               class="text-xs font-bold uppercase tracking-widest text-slate-400"
               >Deep Work</span
             >
-            <i data-lucide="more-horizontal" size="20"></i>
+            <button
+              onclick="resetTimer()"
+              class="text-slate-400 hover:text-white transition"
+            >
+              <i data-lucide="refresh-cw" size="20"></i>
+            </button>
           </div>
           <div class="text-center py-6">
             <div id="timer-display" class="text-6xl font-black mb-8">25:00</div>
@@ -150,18 +158,21 @@
         <div
           class="card-masonry relative group break-inside-avoid bg-[#efefef] p-6 mb-4"
         >
-          <div
-            class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-start justify-end p-4"
-          >
-            <button class="pin-save-btn" onclick="addTodo()">Quick Add</button>
+          <div class="flex justify-between items-center mb-4 pr-2">
+            <h3 class="font-bold text-xl">Action Items</h3>
+            <button
+              onclick="addTodo()"
+              class="text-slate-500 hover:text-black transition"
+            >
+              <i data-lucide="plus-circle" size="24"></i>
+            </button>
           </div>
-          <h3 class="font-bold text-xl mb-4 pr-12">Action Items</h3>
-          <ul id="todo-list" class="space-y-2"></ul>
+          <ul id="todo-list" class="space-y-3"></ul>
         </div>
 
         <div class="card-masonry relative group break-inside-avoid mb-4">
           <img
-            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=500&q=80"
+            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80"
             class="w-full h-auto"
           />
           <div
@@ -169,14 +180,6 @@
           >
             <div class="flex justify-end">
               <button class="pin-save-btn">Focus</button>
-            </div>
-            <div
-              class="bg-white/90 backdrop-blur p-2 rounded-lg flex items-center justify-between"
-            >
-              <span class="text-xs font-bold truncate"
-                >Aesthetic Workspace</span
-              >
-              <i data-lucide="external-link" size="14"></i>
             </div>
           </div>
         </div>
@@ -207,15 +210,42 @@
             — Walt Disney
           </p>
         </div>
+
+        <div
+          class="card-masonry relative break-inside-avoid bg-slate-100 p-8 mb-4 border border-slate-200"
+        >
+          <div class="flex items-center gap-2 mb-8 text-slate-500">
+            <i data-lucide="clock" size="16"></i>
+            <span class="text-xs font-bold uppercase tracking-widest"
+              >Local Time</span
+            >
+          </div>
+          <div
+            id="clock-display"
+            class="text-5xl font-black text-slate-800 tracking-tighter"
+          >
+            00:00:00
+          </div>
+          <div id="clock-date" class="mt-2 text-sm font-medium text-slate-500">
+            Monday, Feb 23
+          </div>
+        </div>
       </section>
     </main>
 
     <script>
       lucide.createIcons()
 
-      // 1. TIMER LOGIC
       let timeLeft = 1500
       let timerId = null
+
+      function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60)
+        const secs = timeLeft % 60
+        document.getElementById('timer-display').innerText = `${mins}:${secs
+          .toString()
+          .padStart(2, '0')}`
+      }
 
       function toggleTimer() {
         const btn = document.getElementById('timer-btn')
@@ -229,20 +259,38 @@
           btn.style.backgroundColor = '#111'
           timerId = setInterval(() => {
             timeLeft--
-            const mins = Math.floor(timeLeft / 60)
-            const secs = timeLeft % 60
-            document.getElementById('timer-display').innerText = `${mins}:${secs
-              .toString()
-              .padStart(2, '0')}`
+            updateTimerDisplay()
             if (timeLeft <= 0) {
               clearInterval(timerId)
-              alert('Focus Done!')
+              alert("Time's up!")
             }
           }, 1000)
         }
       }
 
-      // 2. TODO LOGIC
+      function resetTimer() {
+        clearInterval(timerId)
+        timerId = null
+        timeLeft = 1500
+        updateTimerDisplay()
+        document.getElementById('timer-btn').innerText = 'Start'
+        document.getElementById('timer-btn').style.backgroundColor = '#e60023'
+      }
+
+      function updateClock() {
+        const now = new Date()
+        document.getElementById('clock-display').innerText =
+          now.toLocaleTimeString([], { hour12: false })
+        document.getElementById('clock-date').innerText =
+          now.toLocaleDateString([], {
+            weekday: 'long',
+            month: 'short',
+            day: 'numeric'
+          })
+      }
+      setInterval(updateClock, 1000)
+      updateClock()
+
       let todos = JSON.parse(localStorage.getItem('pin_workspace_todos')) || [
         { text: 'Launch new workspace UI', done: false },
         { text: 'Organize dev files', done: true }
@@ -253,10 +301,11 @@
         list.innerHTML = todos
           .map(
             (t, i) => `
-                <li class="flex items-center gap-3 py-1 group">
-                    <div onclick="toggleTodo(${i})" class="w-5 h-5 rounded-full border-2 border-slate-300 cursor-pointer flex items-center justify-center transition-colors ${
-              t.done ? 'bg-black border-black' : 'bg-white'
-            }">
+            <li class="flex items-center justify-between gap-3 py-1 group todo-item">
+                <div onclick="toggleTodo(${i})" class="flex items-center gap-3 flex-1 cursor-pointer">
+                    <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors ${
+                      t.done ? 'bg-black border-black' : 'bg-white'
+                    }">
                         ${
                           t.done
                             ? '<i data-lucide="check" size="12" class="text-white"></i>'
@@ -266,8 +315,10 @@
                     <span class="text-sm font-medium ${
                       t.done ? 'line-through text-slate-400' : 'text-slate-800'
                     }">${t.text}</span>
-                </li>
-            `
+                </div>
+                <button onclick="deleteTodo(${i})" class="delete-btn text-slate-400 hover:text-red-500 transition-opacity"><i data-lucide="x" size="16"></i></button>
+            </li>
+        `
           )
           .join('')
         lucide.createIcons()
@@ -276,18 +327,20 @@
 
       function addTodo() {
         const val = prompt('What needs to be done?')
-        if (val) {
+        if (val && val.trim()) {
           todos.unshift({ text: val, done: false })
           renderTodos()
         }
       }
-
-      const toggleTodo = i => {
+      function toggleTodo(i) {
         todos[i].done = !todos[i].done
         renderTodos()
       }
+      function deleteTodo(i) {
+        todos.splice(i, 1)
+        renderTodos()
+      }
 
-      // 3. PERSISTENCE
       const scratch = document.getElementById('scratchpad')
       scratch.value = localStorage.getItem('pin_scratch_v2') || ''
       scratch.addEventListener('input', e =>

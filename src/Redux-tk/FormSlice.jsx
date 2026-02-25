@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const formSlice = createSlice({
-    name: 'users',
-    initialState: [],
+    name: 'form',
+    initialState: {
+        users: []
+    },
     reducers: {
-        addUser: (state, action) => {
-            state.push(action.payload)
+        addUser: (state, id) => {
+            state.users.push(id.payload)
         },
-        deleteUser: (state, action) => {
-            return state.filter((_, index) => index !== action.payload);
+        deleteUser: (state, id) => {
+            state.users.splice(id.payload, 1)
+        },
+        editUser: (state, id) => {
+            state.users[id.payload.index] = id.payload.data
         }
     }
 })
 
-export const { addUser, deleteUser } = formSlice.actions
+export const { addUser, deleteUser, editUser } = formSlice.actions
 export default formSlice.reducer

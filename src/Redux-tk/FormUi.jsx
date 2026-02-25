@@ -1,36 +1,53 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addUser, deleteUser } from './FormSlice';
-
+import { Field, Form, Formik } from 'formik'
+import React, { useState } from 'react'
+import { addUser, deleteUser, editUser } from './FormSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const FormUi = () => {
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
 
-    // Get data and dispatch function from Redux
-    const users = useSelector((state) => state.users);
-    const dispatch = useDispatch();
+    const dis = useDispatch()
+    const users = useSelector((state) => state.users.users)
+    const [editId, setEditId] = useState(null)
+    const [ini, setIni] = useState({
+        name: "",
+        age: ""
+    })
 
-    const handleAdd = (e) => {
-        e.preventDefault();
-        if (!name || !age) return;
+    const handleSubmit = (values, { resetForm }) => {
 
-        dispatch(addUser({ name, age })); // Send data to Redux
-        setName(''); // Clear inputs
-        setAge('');
-    };
+        if (editId !== null) {
+            dis(editUser({ index: editId, data: values }))
+            setEditId(null)
+            setIni({
+                name: "",
+                age: ""
+            })
+        }
+        else {
+            dis(addUser(values))
+        }
+        resetForm()
+    }
+
+    const handleEdit = (data, index) => {
+        setIni(data)
+        setEditId(index)
+    }
 
     return (
-        <div >
-            <h2>Simple Redux CRUD</h2>
-
-            <form onSubmit={handleAdd}>
-                <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /> <br /><br />
-                <input placeholder="Age" type="number" value={age} onChange={(e) => setAge(e.target.value)} /><br /><br />
-                <button type="submit">Add</button><br /><br />
-            </form>
-
-            <table border="1">
+        <div>
+            <Formik
+                enableReinitialize
+                onSubmit={handleSubmit}
+                initialValues={ini}>
+                <Form>
+                    <br /><br />
+                    <Field type='text' name='name' placeholder='Enter your name' /><br /><br />
+                    <Field type='number' name='age' placeholder='Enter your age' /><br /><br />
+                    <button type='submit'>submit</button><br /><br />
+                </Form>
+            </Formik>
+            <table border={1}>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -40,22 +57,21 @@ const FormUi = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users?.map((user, index) => (
-                        <tr key={index}>
-                            <td>{user.name}</td>
-                            <td>{user.age}</td>
-                            <td>
-                                <button onClick={() => dispatch(deleteUser(index))}>Delete</button>
-                            </td>
-                            <td>
-                                {/* <button onClick={() => dispatch(editeUser(index))}>Edit</button> */}
-                            </td>
-                        </tr>
-                    ))}
+                    {
+                        users.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.name}</td>
+                                <td>{item.age}</td>
+                                <td><button onClick={() => dis(deleteUser(index))}>Delete</button></td>
+                                <td><button onClick={() => handleEdit(item, index)}
+                                >Edit</button></td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>
-    );
-};
+    )
+}
 
-export default FormUi; 
+export default FormUi
